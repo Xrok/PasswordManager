@@ -50,16 +50,22 @@ void main() {
     try {
       var username = "xrok";
       var password = "1234";
-      provider.register(username, password);
-    } catch (e) {}
+      var response = await provider.register(username, password);
+      print(response);
+    } catch (e) {
+      print(e.toString());
+    }
   });
 
   test('fetchAccounts', () async {
     try {
       var username = "xrok";
       var password = "1234";
-      provider.fetchAccounts(username, password);
-    } catch (e) {}
+      var response = await provider.fetchAccounts(username, password);
+      print(response);
+    } catch (e) {
+      print(e.toString());
+    }
   });
 
   test('addAccount', () async {
@@ -69,8 +75,11 @@ void main() {
       var webPage = "facebook.com";
       var accUsername = "fbXrok";
       var accPassword = "fb1234";
-      provider.addAccount(username, password, webPage, accUsername, accPassword);
-    } catch (e) {}
+      var response = await provider.addAccount(username, password, webPage, accUsername, accPassword);
+      print(response);
+    } catch (e) {
+      print(e.toString());
+    }
   });
 
   test('deleteAccount', () async {
@@ -79,8 +88,11 @@ void main() {
       var password = "1234";
       var webPage = "facebook.com";
       var accUsername = "fbXrok";
-      provider.deleteAccount(username, password, webPage, accUsername);
-    } catch (e) {}
+      var response = await provider.deleteAccount(username, password, webPage, accUsername);
+      print(response);
+    } catch (e) {
+      print(e.toString());
+    }
   });
 }
 

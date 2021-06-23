@@ -7,8 +7,7 @@ import 'package:password_manager/core/general_exception.dart';
 import 'package:password_manager/repository/user/models/account.dart';
 
 class UserProvider {
-  // static const _baseUrl = AppConstants.baseUrl;
-  static const _baseUrl = 'localhost:3000';
+  static const _baseUrl = AppConstants.baseUrl;
 
   Future<String> register(String username, String password) async {
     log('INIT', name: 'register');
@@ -146,7 +145,7 @@ class UserProvider {
           }));
 
       var decodedResponse = jsonDecode(response.body);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         log('END', name: 'deleteAccount');
         return decodedResponse['username'];
       } else {
@@ -158,6 +157,7 @@ class UserProvider {
       rethrow;
     } catch (e, stackTrace) {
       log('ERROR', name: 'deleteAccount', error: e, stackTrace: stackTrace);
+      print(stackTrace);
       throw GeneralException('An error ocurred', '000', stackTrace);
     }
   }
