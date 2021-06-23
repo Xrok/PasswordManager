@@ -9,22 +9,79 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:password_manager/main.dart';
+import 'package:password_manager/repository/user/user_provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  //   // Build our app and trigger a frame.
+  //   await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  //   // Verify that our counter starts at 0.
+  //   expect(find.text('0'), findsOneWidget);
+  //   expect(find.text('1'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  //   // Tap the '+' icon and trigger a frame.
+  //   await tester.tap(find.byIcon(Icons.add));
+  //   await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  //   // Verify that our counter has incremented.
+  //   expect(find.text('0'), findsNothing);
+  //   expect(find.text('1'), findsOneWidget);
+  // });
+  final provider = UserProvider();
+  test('hello-world', () async {
+    try {
+      // provider
+    } catch (e) {}
+  });
+
+  test('login', () async {
+    try {
+      var username = "xrok";
+      var password = "1234";
+      var response = await provider.login(username, password);
+      print(response);
+    } catch (e) {
+      print(e.toString());
+    }
+  });
+
+  test('register', () async {
+    try {
+      var username = "xrok";
+      var password = "1234";
+      provider.register(username, password);
+    } catch (e) {}
+  });
+
+  test('fetchAccounts', () async {
+    try {
+      var username = "xrok";
+      var password = "1234";
+      provider.fetchAccounts(username, password);
+    } catch (e) {}
+  });
+
+  test('addAccount', () async {
+    try {
+      var username = "xrok";
+      var password = "1234";
+      var webPage = "facebook.com";
+      var accUsername = "fbXrok";
+      var accPassword = "fb1234";
+      provider.addAccount(username, password, webPage, accUsername, accPassword);
+    } catch (e) {}
+  });
+
+  test('deleteAccount', () async {
+    try {
+      var username = "xrok";
+      var password = "1234";
+      var webPage = "facebook.com";
+      var accUsername = "fbXrok";
+      provider.deleteAccount(username, password, webPage, accUsername);
+    } catch (e) {}
   });
 }
+
+void testApi() {}
