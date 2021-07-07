@@ -21,8 +21,12 @@ class RegisterView extends StatelessWidget {
               SvgPicture.asset(AppConstants.logoPath),
               TextField(
                 style: Theme.of(context).textTheme.bodyText1,
+                decoration: InputDecoration(hintText: 'Usuario'),
               ),
-              TextField(style: Theme.of(context).textTheme.bodyText1),
+              TextField(
+                style: Theme.of(context).textTheme.bodyText1,
+                decoration: InputDecoration(hintText: 'Contraseña'),
+              ),
               GestureDetector(
                 child: Text("Registrarme",
                     style: Theme.of(context).textTheme.subtitle2),

@@ -9,22 +9,21 @@ class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(
+        return PageRouteBuilder(
             settings: const RouteSettings(name: '/'),
-            //builder: (_) => ProtectedRoute(view: Home()));
-            builder: (_) => Home());
+            pageBuilder: (_, __, ___) => ProtectedRoute(view: Home()));
       case '/login':
-        return MaterialPageRoute(
+        return PageRouteBuilder(
             settings: const RouteSettings(name: '/login'),
-            builder: (_) => LoginPage());
+            pageBuilder: (_, __, ___) => LoginPage());
       case '/register':
-        return MaterialPageRoute(
+        return PageRouteBuilder(
             settings: const RouteSettings(name: '/register'),
-            builder: (_) => RegisterPage());
+            pageBuilder: (_, __, ___) => RegisterPage());
       default:
-        return MaterialPageRoute(
+        return PageRouteBuilder(
             settings: const RouteSettings(name: '/login'),
-            builder: (_) => LoginPage());
+            pageBuilder: (_, __, ___) => LoginPage());
     }
   }
 }

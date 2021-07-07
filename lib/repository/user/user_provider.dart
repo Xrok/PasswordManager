@@ -17,15 +17,18 @@ class UserProvider {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{'username': username, 'password': password}));
+          body: jsonEncode(
+              <String, String>{'username': username, 'password': password}));
 
       var decodedResponse = jsonDecode(response.body);
       if (response.statusCode == 201) {
         log('END', name: 'register');
         return decodedResponse['username'];
       } else {
-        final error = GeneralException(decodedResponse['error'], '001', StackTrace.current);
-        log("ERROR'${decodedResponse['error']}", name: 'register', error: error);
+        final error = GeneralException(
+            decodedResponse['error'], '001', StackTrace.current);
+        log("ERROR'${decodedResponse['error']}",
+            name: 'register', error: error);
         throw error;
       }
     } on GeneralException {
@@ -46,14 +49,16 @@ class UserProvider {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{'username': username, 'password': password}));
+          body: jsonEncode(
+              <String, String>{'username': username, 'password': password}));
 
       var decodedResponse = jsonDecode(response.body);
       if (response.statusCode == 200) {
         log('END', name: 'login');
-        return decodedResponse['username'];
+        return decodedResponse['token'];
       } else {
-        final error = GeneralException(decodedResponse['error'], '001', StackTrace.current);
+        final error = GeneralException(
+            decodedResponse['error'], '001', StackTrace.current);
         log("ERROR'${decodedResponse['error']}", name: 'login', error: error);
         throw error;
       }
@@ -75,16 +80,21 @@ class UserProvider {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{'username': username, 'password': password}));
+          body: jsonEncode(
+              <String, String>{'username': username, 'password': password}));
 
       var decodedResponse = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        var accountList = decodedResponse.map<Account>((userJson) => Account.fromJson(userJson)).toList();
+        var accountList = decodedResponse
+            .map<Account>((userJson) => Account.fromJson(userJson))
+            .toList();
         log('END', name: 'fetchAccounts');
         return accountList;
       } else {
-        final error = GeneralException(decodedResponse['error'], '001', StackTrace.current);
-        log("ERROR'${decodedResponse['error']}", name: 'fetchAccounts', error: error);
+        final error = GeneralException(
+            decodedResponse['error'], '001', StackTrace.current);
+        log("ERROR'${decodedResponse['error']}",
+            name: 'fetchAccounts', error: error);
         throw error;
       }
     } on GeneralException {
@@ -95,8 +105,8 @@ class UserProvider {
     }
   }
 
-  Future<String> addAccount(
-      String username, String password, String webPage, String accUsername, String accPassword) async {
+  Future<String> addAccount(String username, String password, String webPage,
+      String accUsername, String accPassword) async {
     log('INIT', name: 'addAccount');
     try {
       final uri = Uri.https(_baseUrl, 'user');
@@ -117,8 +127,10 @@ class UserProvider {
         log('END', name: 'addAccount');
         return decodedResponse['username'];
       } else {
-        final error = GeneralException(decodedResponse['error'], '001', StackTrace.current);
-        log("ERROR'${decodedResponse['error']}", name: 'addAccount', error: error);
+        final error = GeneralException(
+            decodedResponse['error'], '001', StackTrace.current);
+        log("ERROR'${decodedResponse['error']}",
+            name: 'addAccount', error: error);
         throw error;
       }
     } on GeneralException {
@@ -129,7 +141,8 @@ class UserProvider {
     }
   }
 
-  Future<String> deleteAccount(String username, String password, String webPage, String accUsername) async {
+  Future<String> deleteAccount(String username, String password, String webPage,
+      String accUsername) async {
     log('INIT', name: 'deleteAccount');
     try {
       final uri = Uri.https(_baseUrl, 'user');
@@ -149,8 +162,10 @@ class UserProvider {
         log('END', name: 'deleteAccount');
         return decodedResponse['username'];
       } else {
-        final error = GeneralException(decodedResponse['error'], '001', StackTrace.current);
-        log("ERROR'${decodedResponse['error']}", name: 'deleteAccount', error: error);
+        final error = GeneralException(
+            decodedResponse['error'], '001', StackTrace.current);
+        log("ERROR'${decodedResponse['error']}",
+            name: 'deleteAccount', error: error);
         throw error;
       }
     } on GeneralException {

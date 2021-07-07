@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager/config/theme/colors.dart';
+import 'package:password_manager/core/bloc/auth_bloc.dart';
 import 'package:password_manager/repository/user/models/account.dart';
 import 'package:password_manager/widgets/card_account.dart';
 
@@ -30,7 +32,8 @@ class HomeView extends StatelessWidget {
           children: [
             ListTile(
               title: Text("Logout"),
-              onTap: () => Navigator.popAndPushNamed(context, '/login'),
+              onTap: () =>
+                  BlocProvider.of<AuthBloc>(context).add(LogoutEvent()),
             )
           ],
         ),

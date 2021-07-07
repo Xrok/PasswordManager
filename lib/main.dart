@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:password_manager/config/routes/app_router..dart';
+import 'package:password_manager/config/routes/app_router.dart';
 import 'package:password_manager/config/theme/theme.dart';
 import 'package:password_manager/core/bloc/auth_bloc.dart';
 import 'package:password_manager/repository/user/user_repository.dart';
