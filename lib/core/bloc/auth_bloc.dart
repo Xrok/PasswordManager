@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:password_manager/biometric_storage_util.dart';
+import 'package:password_manager/utils/biometric_storage_util.dart';
 import 'package:password_manager/core/general_exception.dart';
 import 'package:password_manager/repository/user/user_provider.dart';
 
@@ -18,11 +18,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async* {
     if (event is AppStartedEvent) {
       yield* _mapAppStartedToState();
-    } else if (event is LoginEvent) {
+    } else if (event is LoginAuthEvent) {
       yield* _loginToState(event);
-    } else if (event is LogoutEvent) {
+    } else if (event is LogoutAuthEvent) {
       yield* _logoutToState();
+    } else if (event is LoggedInEvent) {
+      yield* _mapLoggedInEventToState(event);
     }
+  }
+
+  Stream<AuthState> _mapLoggedInEventToState(event) async* {
+    yield AuthSuccess();
   }
 
   Stream<AuthState> _mapAppStartedToState() async* {
@@ -36,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _loginToState(event) async* {
     try {
-      var jwt = await UserProvider().login(event.username, event.password);
+      var jwt = await UserProvider.login(event.username, event.password);
       BiometricStorageUtil.write('jwt', jwt);
       yield AuthSuccess();
     } catch (e) {

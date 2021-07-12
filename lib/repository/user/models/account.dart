@@ -12,4 +12,8 @@ class Account {
       json['password'],
     );
   }
+  @override
+  String toString() {
+    return 'Account { webPage: $webPage, username: $username, password: $password }';
+  }
 }

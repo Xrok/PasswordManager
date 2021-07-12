@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+# To Run
+
+```bash
+flutter run --no-sound-null-safety 
+```
 ## Getting Started
 
 This project is a starting point for a Flutter application.

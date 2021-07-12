@@ -6,8 +6,8 @@ class BiometricStorageUtil {
     if (canAuth == CanAuthenticateResponse.unsupported) {
       throw Exception('Unsupported platform');
     }
-    final storage = await BiometricStorage().getStorage(key,
-        options: StorageFileInitOptions(authenticationRequired: true));
+    final storage =
+        await BiometricStorage().getStorage(key, options: StorageFileInitOptions(authenticationRequired: false));
     await storage.write(value);
     return;
   }
@@ -17,8 +17,8 @@ class BiometricStorageUtil {
     if (canAuth == CanAuthenticateResponse.unsupported) {
       throw Exception('Unsupported platform');
     }
-    final storage = await BiometricStorage().getStorage(key,
-        options: StorageFileInitOptions(authenticationRequired: false));
+    final storage =
+        await BiometricStorage().getStorage(key, options: StorageFileInitOptions(authenticationRequired: false));
     final response = await storage.read();
     return response;
   }
@@ -28,8 +28,8 @@ class BiometricStorageUtil {
     // if (canAuth == CanAuthenticateResponse.unsupported) {
     //   throw Exception('Unsupported platform');
     // }
-    final storage = await BiometricStorage().getStorage(key,
-        options: StorageFileInitOptions(authenticationRequired: false));
+    final storage =
+        await BiometricStorage().getStorage(key, options: StorageFileInitOptions(authenticationRequired: false));
     await storage.delete();
     return;
   }

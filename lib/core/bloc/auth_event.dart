@@ -5,13 +5,13 @@ abstract class AuthEvent {}
 
 class AppStartedEvent extends AuthEvent {}
 
-class LoginEvent extends AuthEvent {
+class LoginAuthEvent extends AuthEvent {
   final String username;
   final String password;
 
-  //List<Object> get props => [username, password];
-
-  LoginEvent(this.username, this.password);
+  LoginAuthEvent(this.username, this.password);
 }
 
-class LogoutEvent extends AuthEvent {}
+class LoggedInEvent extends AuthEvent {}
+
+class LogoutAuthEvent extends AuthEvent {}

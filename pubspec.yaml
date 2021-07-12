@@ -37,6 +37,8 @@ dependencies:
     flutter_svg: ^0.22.0
     http: ^0.13.3
     biometric_storage: ^2.0.3
+    qr_flutter: ^4.0.0
+    qrcode_reader: ^0.4.4
 
 dev_dependencies:
     flutter_test:
