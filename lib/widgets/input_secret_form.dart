@@ -3,7 +3,8 @@ import 'package:password_manager/constants/app_constants.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
 
 class InputSecretForm extends StatelessWidget {
-  const InputSecretForm({Key? key, required this.saveSecretCallback}) : super(key: key);
+  const InputSecretForm({Key? key, required this.saveSecretCallback})
+      : super(key: key);
   final Function saveSecretCallback;
 
   @override
@@ -57,7 +58,13 @@ class InputSecretForm extends StatelessWidget {
 
   setQrData(TextEditingController secretController) async {
     print('STARTING CAMERA');
-    String futureString = await QRCodeReader().scan();
+    String futureString = await QRCodeReader()
+        .setAutoFocusIntervalInMs(200)
+        .setForceAutoFocus(true)
+        .setTorchEnabled(true)
+        .setHandlePermissions(true)
+        .setExecuteAfterPermissionGranted(true)
+        .scan();
     secretController.text = futureString;
   }
 }

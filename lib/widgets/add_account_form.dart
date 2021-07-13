@@ -5,7 +5,8 @@ import 'package:password_manager/constants/app_constants.dart';
 import 'package:password_manager/modules/home/bloc/home_bloc.dart';
 
 class FormAddAccount extends StatelessWidget {
-  const FormAddAccount({Key? key, required this.submitAccount}) : super(key: key);
+  const FormAddAccount({Key? key, required this.submitAccount})
+      : super(key: key);
   final Function submitAccount;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class FormAddAccount extends StatelessWidget {
                     color: CustomColors.cultured,
                   )),
           Padding(
-            padding: EdgeInsets.all(AppConstants.sizes[0]).copyWith(top: AppConstants.sizes[2]),
+            padding: EdgeInsets.all(AppConstants.sizes[0])
+                .copyWith(top: AppConstants.sizes[2]),
             child: TextField(
               style: Theme.of(context).textTheme.bodyText1,
               onChanged: (value) => {webPage = value},
@@ -52,8 +54,9 @@ class FormAddAccount extends StatelessWidget {
                 height: AppConstants.sizes[0],
               ),
               GestureDetector(
-                onTap: () => passwordController.text = '12345',
-                child: Text("Generar contraseña", style: Theme.of(context).textTheme.bodyText2),
+                onTap: () => passwordController.text = '12345', //TODO
+                child: Text("Generar contraseña",
+                    style: Theme.of(context).textTheme.bodyText2),
               ),
             ]),
           ),

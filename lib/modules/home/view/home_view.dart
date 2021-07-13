@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager/config/theme/colors.dart';
 import 'package:password_manager/constants/app_constants.dart';
 import 'package:password_manager/core/bloc/auth_bloc.dart';
+import 'package:password_manager/core/general_exception.dart';
 import 'package:password_manager/modules/home/bloc/home_bloc.dart';
 import 'package:password_manager/repository/user/models/account.dart';
 import 'package:password_manager/utils/biometric_storage_util.dart';
@@ -11,6 +12,7 @@ import 'package:password_manager/widgets/card_account.dart';
 import 'package:password_manager/widgets/input_secret_form.dart';
 import 'package:password_manager/widgets/loading_page.dart';
 import 'package:password_manager/widgets/show_secret_dialog.dart';
+import 'package:encrypt/encrypt.dart' as enc;
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
@@ -37,17 +39,20 @@ class HomeView extends StatelessWidget {
               ListTile(
                 title: Text("Introducir Secreto"),
                 onTap: () {
-                  BlocProvider.of<HomeBloc>(context).add(RequestAddSecretEvent());
+                  BlocProvider.of<HomeBloc>(context)
+                      .add(RequestAddSecretEvent());
                   // Navigator.pop(context);
                 },
               ),
               ListTile(
                 title: Text("Cerrar Sesión"),
-                onTap: () => BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
+                onTap: () =>
+                    BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
               ),
               ListTile(
                 title: Text("Salir"),
-                onTap: () => BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
+                onTap: () =>
+                    BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
               )
             ],
           ),
@@ -67,8 +72,11 @@ class HomeView extends StatelessWidget {
                 return AlertDialog(
                   content: FormAddAccount(
                       submitAccount: (webPage, accUsername, accPassword) =>
-                          submitAccount(contextProvider, webPage, accUsername, accPassword)),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppConstants.sizes[1]))),
+                          submitAccount(contextProvider, webPage, accUsername,
+                              accPassword)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(AppConstants.sizes[1]))),
                 );
                 // );
               }),
@@ -94,10 +102,12 @@ class HomeView extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       titleTextStyle: Theme.of(context).textTheme.headline3,
-                      content:
-                          InputSecretForm(saveSecretCallback: (secret) => saveSecretCallback(contextProvider, secret)),
+                      content: InputSecretForm(
+                          saveSecretCallback: (secret) =>
+                              saveSecretCallback(contextProvider, secret)),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(AppConstants.sizes[1]))),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(AppConstants.sizes[1]))),
                     ));
                   });
             }
@@ -122,14 +132,14 @@ class HomeView extends StatelessWidget {
     return List.from(accounts.map((element) {
       return CardAccount(
         account: element,
-        decryptInfo: decrypt,
       );
     }));
   }
 
   submitAccount(context, webPage, accUsername, accPassword) {
     print('$webPage, $accUsername, $accPassword');
-    BlocProvider.of<HomeBloc>(context).add(AddAccountEvent(webPage, accUsername, accPassword));
+    BlocProvider.of<HomeBloc>(context)
+        .add(AddAccountEvent(webPage, accUsername, accPassword));
   }
 
   saveSecretCallback(context, secret) {
@@ -146,6 +156,4 @@ class HomeView extends StatelessWidget {
           );
         });
   }
-
-  void decrypt() {}
 }

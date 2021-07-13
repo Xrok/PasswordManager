@@ -38,7 +38,9 @@ dependencies:
     http: ^0.13.3
     biometric_storage: ^2.0.3
     qr_flutter: ^4.0.0
-    qrcode_reader: ^0.4.4
+    qrcode_reader:
+        git: https://github.com/bcko/flutter_qrcode_reader.git
+    encrypt: ^5.0.0
 
 dev_dependencies:
     flutter_test:

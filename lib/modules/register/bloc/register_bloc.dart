@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:password_manager/core/general_exception.dart';
 import 'package:password_manager/repository/user/user_provider.dart';
 import 'package:password_manager/utils/biometric_storage_util.dart';
+import 'package:encrypt/encrypt.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -25,9 +28,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     yield LoadingRegisterState();
     try {
       await UserProvider.register(event.username, event.password);
-      String secret = 'super-secret';
-      await BiometricStorageUtil.write('secret', secret);
-      yield SuccessfullRegisteredState(secret);
+      var random = Random.secure();
+      var values = List<int>.generate(32, (i) => random.nextInt(255));
+      final plainText = base64UrlEncode(values);
+      print(plainText);
+      final key = Key.fromUtf8(plainText).base64;
+      await BiometricStorageUtil.write('secret', key);
+      yield SuccessfullRegisteredState(key);
     } on GeneralException catch (e) {
       yield ErrorRegisterState(e.message);
     } catch (e) {
