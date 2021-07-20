@@ -24,7 +24,7 @@ class _CardAccountState extends State<CardAccount> {
     try {
       keyBase64 = await BiometricStorageUtil.read('secret') ?? '';
       if (keyBase64.isEmpty) {
-        print('ga');
+        print('ga'); //TODO pedir que ingrese el key
       }
       final key = enc.Key.fromBase64(keyBase64);
       final iv = enc.IV.fromLength(16);
@@ -43,11 +43,28 @@ class _CardAccountState extends State<CardAccount> {
     }
   }
 
-  encryptInfo() {
-    setState(() {
-      isEncrypted = !isEncrypted;
-    });
-  } //TODO encriptar
+  encryptInfo() async {
+    String keyBase64;
+    try {
+      keyBase64 = await BiometricStorageUtil.read('secret') ?? '';
+      final key = enc.Key.fromBase64(keyBase64);
+      final iv = enc.IV.fromLength(16);
+      final encrypter = enc.Encrypter(enc.AES(key));
+      final decryptedUser = widget.account.username;
+      final decryptedPassword = widget.account.password;
+      setState(() {
+        widget.account.username =
+            encrypter.encrypt(decryptedUser, iv: iv).base64;
+        widget.account.password =
+            encrypter.encrypt(decryptedPassword, iv: iv).base64;
+        isEncrypted = !isEncrypted;
+      });
+    } on GeneralException catch (e) {
+      print(e.message);
+    } catch (e) {
+      print('Decryption Error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

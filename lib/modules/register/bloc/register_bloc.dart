@@ -31,8 +31,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       var random = Random.secure();
       var values = List<int>.generate(32, (i) => random.nextInt(255));
       final plainText = base64UrlEncode(values);
-      print(plainText);
       final key = Key.fromUtf8(plainText).base64;
+      print(key);
       await BiometricStorageUtil.write('secret', key);
       yield SuccessfullRegisteredState(key);
     } on GeneralException catch (e) {

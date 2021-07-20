@@ -67,7 +67,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (keyBase64.isEmpty) {
           print('ga');
         }
+        print("key_raw: " + keyBase64);
+
         final key = enc.Key.fromBase64(keyBase64);
+
+        print(key.length);
         final iv = enc.IV.fromLength(16);
         final encrypter = enc.Encrypter(enc.AES(key));
         final encryptedUser =
