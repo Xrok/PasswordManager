@@ -42,8 +42,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     yield HomeNeedSecret(accounts: state.accounts);
   }
 
-  Stream<HomeState> _mapFetchAccountsEventToState(
-      FetchAccountsEvent event) async* {
+  Stream<HomeState> _mapFetchAccountsEventToState(FetchAccountsEvent event) async* {
     try {
       final jwt = await BiometricStorageUtil.read('jwt');
       if (jwt != null) {
@@ -67,6 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (keyBase64.isEmpty) {
           print('ga');
         }
+
         print("key_raw: " + keyBase64);
 
         final key = enc.Key.fromBase64(keyBase64);
@@ -74,12 +74,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         print(key.length);
         final iv = enc.IV.fromLength(16);
         final encrypter = enc.Encrypter(enc.AES(key));
-        final encryptedUser =
-            encrypter.encrypt(event.accUsername, iv: iv).base64;
-        final encryptedPassword =
-            encrypter.encrypt(event.accPassword, iv: iv).base64;
-        await UserProvider.addAccount(
-            jwt, event.webPage, encryptedUser, encryptedPassword);
+        final encryptedUser = encrypter.encrypt(event.accUsername, iv: iv).base64;
+        final encryptedPassword = encrypter.encrypt(event.accPassword, iv: iv).base64;
+        await UserProvider.addAccount(jwt, event.webPage, encryptedUser, encryptedPassword);
         yield HomeAddedAccSuccess(accounts: state.accounts);
       }
     } on GeneralException catch (e) {

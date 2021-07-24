@@ -28,10 +28,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     yield LoadingRegisterState();
     try {
       await UserProvider.register(event.username, event.password);
-      var random = Random.secure();
-      var values = List<int>.generate(32, (i) => random.nextInt(255));
-      final plainText = base64UrlEncode(values);
-      final key = Key.fromUtf8(plainText).base64;
+      final key = Key.fromSecureRandom(32).base64;
       print(key);
       await BiometricStorageUtil.write('secret', key);
       yield SuccessfullRegisteredState(key);
