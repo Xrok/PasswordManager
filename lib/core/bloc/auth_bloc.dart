@@ -24,7 +24,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _logoutToState();
     } else if (event is LoggedInEvent) {
       yield* _mapLoggedInEventToState(event);
+    } else if (event is ClearDataEvent) {
+      yield* _mapClearDataEvent(event);
     }
+  }
+
+  Stream<AuthState> _mapClearDataEvent(event) async* {
+    await BiometricStorageUtil.delete('secret');
   }
 
   Stream<AuthState> _mapLoggedInEventToState(event) async* {

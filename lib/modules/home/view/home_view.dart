@@ -39,20 +39,17 @@ class HomeView extends StatelessWidget {
               ListTile(
                 title: Text("Introducir Secreto"),
                 onTap: () {
-                  BlocProvider.of<HomeBloc>(context)
-                      .add(RequestAddSecretEvent());
+                  BlocProvider.of<HomeBloc>(context).add(RequestAddSecretEvent());
                   // Navigator.pop(context);
                 },
               ),
               ListTile(
                 title: Text("Cerrar Sesión"),
-                onTap: () =>
-                    BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
+                onTap: () => BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
               ),
               ListTile(
-                title: Text("Salir"),
-                onTap: () =>
-                    BlocProvider.of<AuthBloc>(context).add(LogoutAuthEvent()),
+                title: Text("Borrar datos"),
+                onTap: () => BlocProvider.of<AuthBloc>(context).add(ClearDataEvent()),
               )
             ],
           ),
@@ -72,11 +69,8 @@ class HomeView extends StatelessWidget {
                 return AlertDialog(
                   content: FormAddAccount(
                       submitAccount: (webPage, accUsername, accPassword) =>
-                          submitAccount(contextProvider, webPage, accUsername,
-                              accPassword)),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(AppConstants.sizes[1]))),
+                          submitAccount(contextProvider, webPage, accUsername, accPassword)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppConstants.sizes[1]))),
                 );
                 // );
               }),
@@ -102,12 +96,10 @@ class HomeView extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       titleTextStyle: Theme.of(context).textTheme.headline3,
-                      content: InputSecretForm(
-                          saveSecretCallback: (secret) =>
-                              saveSecretCallback(contextProvider, secret)),
+                      content:
+                          InputSecretForm(saveSecretCallback: (secret) => saveSecretCallback(contextProvider, secret)),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(AppConstants.sizes[1]))),
+                          borderRadius: BorderRadius.all(Radius.circular(AppConstants.sizes[1]))),
                     ));
                   });
             }
@@ -119,7 +111,7 @@ class HomeView extends StatelessWidget {
               }
               if (state is HomeLoaded) {
                 return ListView(
-                  children: parseAccounts(state.accounts),
+                  children: parseAccounts(state.accounts, context),
                 );
               }
               return Container();
@@ -128,18 +120,15 @@ class HomeView extends StatelessWidget {
         ));
   }
 
-  List<Widget> parseAccounts(List<Account> accounts) {
+  List<Widget> parseAccounts(List<Account> accounts, context) {
     return List.from(accounts.map((element) {
-      return CardAccount(
-        account: element,
-      );
+      return CardAccount(account: element, requestAddSecret: () => requestAddSecret(context));
     }));
   }
 
   submitAccount(context, webPage, accUsername, accPassword) {
     print('$webPage, $accUsername, $accPassword');
-    BlocProvider.of<HomeBloc>(context)
-        .add(AddAccountEvent(webPage, accUsername, accPassword));
+    BlocProvider.of<HomeBloc>(context).add(AddAccountEvent(webPage, accUsername, accPassword));
   }
 
   saveSecretCallback(context, secret) {
@@ -155,5 +144,9 @@ class HomeView extends StatelessWidget {
             content: ShowSecretDialog(secret: secret),
           );
         });
+  }
+
+  requestAddSecret(context) {
+    BlocProvider.of<HomeBloc>(context).add(RequestAddSecretEvent());
   }
 }

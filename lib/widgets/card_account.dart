@@ -9,8 +9,9 @@ import 'package:encrypt/encrypt.dart' as enc;
 
 class CardAccount extends StatefulWidget {
   final Account account;
+  final Function requestAddSecret;
 
-  const CardAccount({Key? key, required this.account}) : super(key: key);
+  const CardAccount({Key? key, required this.account, required this.requestAddSecret}) : super(key: key);
 
   @override
   State<CardAccount> createState() => _CardAccountState();
@@ -24,7 +25,7 @@ class _CardAccountState extends State<CardAccount> {
     try {
       keyBase64 = await BiometricStorageUtil.read('secret') ?? '';
       if (keyBase64.isEmpty) {
-        print('ga'); //TODO pedir que ingrese el key
+        widget.requestAddSecret();
       }
       final key = enc.Key.fromBase64(keyBase64);
       final iv = enc.IV.fromLength(16);
@@ -53,10 +54,8 @@ class _CardAccountState extends State<CardAccount> {
       final decryptedUser = widget.account.username;
       final decryptedPassword = widget.account.password;
       setState(() {
-        widget.account.username =
-            encrypter.encrypt(decryptedUser, iv: iv).base64;
-        widget.account.password =
-            encrypter.encrypt(decryptedPassword, iv: iv).base64;
+        widget.account.username = encrypter.encrypt(decryptedUser, iv: iv).base64;
+        widget.account.password = encrypter.encrypt(decryptedPassword, iv: iv).base64;
         isEncrypted = !isEncrypted;
       });
     } on GeneralException catch (e) {
@@ -69,14 +68,12 @@ class _CardAccountState extends State<CardAccount> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          vertical: AppConstants.sizes[0], horizontal: AppConstants.sizes[1]),
+      margin: EdgeInsets.symmetric(vertical: AppConstants.sizes[0], horizontal: AppConstants.sizes[1]),
       padding: EdgeInsets.all(AppConstants.sizes[1]),
       // height: 150,
       decoration: BoxDecoration(
           border: Border.all(color: CustomColors.magicMint, width: 2),
-          borderRadius:
-              BorderRadius.all(Radius.circular(AppConstants.sizes[2]))),
+          borderRadius: BorderRadius.all(Radius.circular(AppConstants.sizes[2]))),
       child: Wrap(
         runAlignment: WrapAlignment.spaceBetween,
         alignment: WrapAlignment.spaceAround,
@@ -99,11 +96,9 @@ class _CardAccountState extends State<CardAccount> {
               ),
               Text(
                 isEncrypted ? "••••••" : widget.account.username,
-                style:
-                    Theme.of(context).textTheme.bodyText1, //TODO Obscure text
+                style: Theme.of(context).textTheme.bodyText1, //TODO Obscure text
               ),
-              Text(isEncrypted ? "••••••" : widget.account.password,
-                  style: Theme.of(context).textTheme.bodyText1)
+              Text(isEncrypted ? "••••••" : widget.account.password, style: Theme.of(context).textTheme.bodyText1)
             ],
           ),
           // const Spacer(),
@@ -113,10 +108,7 @@ class _CardAccountState extends State<CardAccount> {
               onPressed: () => isEncrypted ? decryptInfo() : encryptInfo(),
               child: Text(
                 isEncrypted ? "MOSTRAR" : "OCULTAR",
-                style: Theme.of(context)
-                    .textTheme
-                    .button
-                    ?.copyWith(color: CustomColors.richBlack),
+                style: Theme.of(context).textTheme.button?.copyWith(color: CustomColors.richBlack),
               ),
             )
           ])

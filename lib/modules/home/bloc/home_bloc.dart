@@ -64,7 +64,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         keyBase64 = await BiometricStorageUtil.read('secret') ?? '';
         if (keyBase64.isEmpty) {
-          print('ga');
+          yield HomeNeedSecret(accounts: state.accounts);
+          return;
         }
 
         print("key_raw: " + keyBase64);
