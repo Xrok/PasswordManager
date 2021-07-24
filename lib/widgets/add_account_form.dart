@@ -51,7 +51,7 @@ class FormAddAccount extends StatelessWidget {
                 controller: passwordController,
                 style: Theme.of(context).textTheme.bodyText1,
                 decoration: InputDecoration(hintText: 'password'),
-                onChanged: (value) => {passwordController.text = value},
+                onChanged: (value) => {},
               ),
               SizedBox(
                 height: AppConstants.sizes[0],
@@ -63,7 +63,7 @@ class FormAddAccount extends StatelessWidget {
                       List<int>.generate(32, (i) => _random.nextInt(255));
                   var pass = base64Encode(values).substring(0, 12);
                   passwordController.text = pass;
-                }, //TODO
+                },
                 child: Text("Generar contraseña",
                     style: Theme.of(context).textTheme.bodyText2),
               ),
