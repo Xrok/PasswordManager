@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager/config/theme/colors.dart';
@@ -54,7 +57,13 @@ class FormAddAccount extends StatelessWidget {
                 height: AppConstants.sizes[0],
               ),
               GestureDetector(
-                onTap: () => passwordController.text = '12345', //TODO
+                onTap: () {
+                  final Random _random = Random.secure();
+                  var values =
+                      List<int>.generate(32, (i) => _random.nextInt(255));
+                  var pass = base64Encode(values).substring(0, 12);
+                  passwordController.text = pass;
+                }, //TODO
                 child: Text("Generar contraseña",
                     style: Theme.of(context).textTheme.bodyText2),
               ),
