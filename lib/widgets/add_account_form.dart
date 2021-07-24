@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager/config/theme/colors.dart';
@@ -5,7 +8,8 @@ import 'package:password_manager/constants/app_constants.dart';
 import 'package:password_manager/modules/home/bloc/home_bloc.dart';
 
 class FormAddAccount extends StatelessWidget {
-  const FormAddAccount({Key? key, required this.submitAccount}) : super(key: key);
+  const FormAddAccount({Key? key, required this.submitAccount})
+      : super(key: key);
   final Function submitAccount;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,8 @@ class FormAddAccount extends StatelessWidget {
                     color: CustomColors.cultured,
                   )),
           Padding(
-            padding: EdgeInsets.all(AppConstants.sizes[0]).copyWith(top: AppConstants.sizes[2]),
+            padding: EdgeInsets.all(AppConstants.sizes[0])
+                .copyWith(top: AppConstants.sizes[2]),
             child: TextField(
               style: Theme.of(context).textTheme.bodyText1,
               onChanged: (value) => {webPage = value},
@@ -52,8 +57,15 @@ class FormAddAccount extends StatelessWidget {
                 height: AppConstants.sizes[0],
               ),
               GestureDetector(
-                onTap: () => passwordController.text = '12345', //TODO
-                child: Text("Generar contraseña", style: Theme.of(context).textTheme.bodyText2),
+                onTap: () {
+                  final Random _random = Random.secure();
+                  var values =
+                      List<int>.generate(32, (i) => _random.nextInt(255));
+                  var pass = base64Encode(values).substring(0, 12);
+                  passwordController.text = pass;
+                },
+                child: Text("Generar contraseña",
+                    style: Theme.of(context).textTheme.bodyText2),
               ),
             ]),
           ),
