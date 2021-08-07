@@ -1,6 +1,6 @@
 # Password manager
 
-A new Flutter project.
+A password manager Flutter App
 
 # To Run
 
